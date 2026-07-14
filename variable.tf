@@ -23,13 +23,16 @@ variable "key_name" {
   type = string
 }
 
-variable "allowed_ports" {
-  type = list(string)
+variable "ingress_rule" {
+  type = map(object({
+    port = number
+    cidr = string
+  }))
 }
 
-variable "cidr_ipv4" {
-  type = string
-}
+# variable "my_ip" {
+#   type = string
+# }
 
 variable "subnet_cidr" {
   type = string

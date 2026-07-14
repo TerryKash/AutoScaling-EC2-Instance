@@ -9,4 +9,10 @@ resource "aws_autoscaling_group" "asg" {
     version = "$Latest"
   }
 
+  tag {
+    key                 = "Name"
+    value               = "asg-web-instance"
+    propagate_at_launch = true
+  }
+
 }

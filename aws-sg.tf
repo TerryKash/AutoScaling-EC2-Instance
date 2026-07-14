@@ -11,12 +11,12 @@ resource "aws_security_group" "allow_tls" {
 
 #creating ingress rule
 resource "aws_vpc_security_group_ingress_rule" "allow_tls" {
-  for_each          = toset(var.allowed_ports)
+  for_each          = var.ingress_rule
   security_group_id = aws_security_group.allow_tls.id
-  cidr_ipv4         = var.cidr_ipv4
-  from_port         = each.value
+  cidr_ipv4         = each.value.cidr
+  from_port         = each.value.port
   ip_protocol       = "tcp"
-  to_port           = each.value
+  to_port           = each.value.port
 }
 
 #creating egress rule

@@ -26,7 +26,11 @@ resource "aws_launch_template" "ec2_launch_template" {
   instance_type          = var.instance_type
   user_data              = filebase64("${path.module}/script.sh")
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
-  key_name               = aws_key_pair.key-tf.id
+  key_name               = aws_key_pair.key-tf.key_name
+  metadata_options {
+    http_tokens   = "required"
+    http_endpoint = "enabled"
+  }
 
   tags = {
     Name = "ec2-instance"
