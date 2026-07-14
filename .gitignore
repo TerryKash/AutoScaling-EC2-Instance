@@ -1,0 +1,21 @@
+# Local secret files
+*.tfvars
+*.tfvars.json
+terraform.tfvars
+secrets.tf
+
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+.terraform.tfstate.lock.info
+
+# Terraform working directory (Massive local cache folder)
+.terraform/
+
+# Personal SSH keys (Just in case you generated keys locally)
+*.pem
+id_rsa
+id_rsa.pub
+
+# terraform graph
+*.dot
