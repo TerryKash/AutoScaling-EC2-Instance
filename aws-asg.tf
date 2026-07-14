@@ -1,11 +1,12 @@
 resource "aws_autoscaling_group" "asg" {
-  availability_zones = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1]]
-  desired_capacity   = 1
-  max_size           = 1
-  min_size           = 2
+  vpc_zone_identifier = [aws_subnet.primary_subnet.id, aws_subnet.secondary_subnet.id]
+  desired_capacity    = 1
+  max_size            = 2
+  min_size            = 1
 
   launch_template {
     id      = aws_launch_template.ec2_launch_template.id
     version = "$Latest"
   }
+
 }

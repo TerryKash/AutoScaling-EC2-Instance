@@ -6,12 +6,16 @@ data "aws_availability_zones" "available" {
 #creating vpc
 resource "aws_vpc" "main" {
   cidr_block = var.cidr_block
+
+  tags = {
+    Name = "main-vpc"
+  }
 }
 
 #creating 2 subnets primary and secondary 
 resource "aws_subnet" "primary_subnet" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.subnet_cidr, 8, 1)
+  cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, 1)
   map_public_ip_on_launch = true
   availability_zone       = data.aws_availability_zones.available.names[0]
 
@@ -22,7 +26,7 @@ resource "aws_subnet" "primary_subnet" {
 
 resource "aws_subnet" "secondary_subnet" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.subnet_cidr, 8, 1)
+  cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, 2)
   map_public_ip_on_launch = true
   availability_zone       = data.aws_availability_zones.available.names[1]
 
@@ -45,8 +49,8 @@ resource "aws_route_table" "rt" {
   vpc_id = aws_vpc.main.id # Tells AWS this map belongs to your neighborhood
 
   route {
-    cidr_block = "0.0.0.0/0"                     # "If traffic wants to go to the Entire Internet..."
-    gateway_id = aws_internet_gateway.gateway.id # "...send it directly to our Front Gate"
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gateway.id
   }
 
   tags = { Name = "main-route-table" }
