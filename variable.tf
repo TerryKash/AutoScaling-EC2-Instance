@@ -30,9 +30,9 @@ variable "ingress_rule" {
   }))
 }
 
-# variable "my_ip" {
-#   type = string
-# }
+variable "my_ip" {
+  type = string
+}
 
 variable "subnet_cidr" {
   type = string
